@@ -1,9 +1,14 @@
+using BLL.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+builder.Services.AddDbContext<MyDbContext>(optionsAction =>
+    optionsAction.UseNpgsql("User ID=postgres;Password=patateskral;Host=localhost;Port=5432;Database=StudentsDB;"));
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
