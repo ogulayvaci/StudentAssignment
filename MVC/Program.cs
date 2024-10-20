@@ -1,4 +1,5 @@
-using BLL.Context;
+using BLL.DAL;
+using BLL.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,9 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
-builder.Services.AddDbContext<MyDbContext>(optionsAction =>
+// IOC (Inversion of Control) Container
+builder.Services.AddDbContext<Db>(optionsAction =>
     optionsAction.UseNpgsql("User ID=postgres;Password=patateskral;Host=localhost;Port=5432;Database=StudentsDB;"));
+
+builder.Services.AddScoped<IStudentService, StudentService>();
+
+var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
